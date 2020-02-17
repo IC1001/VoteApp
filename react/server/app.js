@@ -1,4 +1,3 @@
-const filePath = 'F:/WebStudy/voteweb/react/build/index.html'
 const express = require("express")
 const app = express()
 const model = require('./model/index')
