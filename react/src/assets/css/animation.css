@@ -1,0 +1,177 @@
+.hStart {
+    position: absolute;
+    width: 1300px;
+    background-color: #fff;
+    z-index: 999;
+    
+
+}
+.hEnd {
+    position: absolute;
+    background-color: #fff;
+    z-index: 999;
+    animation: ltr 0.75s ease-out;
+
+}
+
+.sStart {
+    position: absolute;
+    width: 1300px;
+    background-color: #fff;
+    z-index: 999;
+    
+
+}
+.sEnd {
+    position: absolute;
+    background-color: #fff;
+    z-index: 999;
+    
+    animation: rtl 1.2s;
+}
+
+
+@keyframes ltr {
+    from {
+        transform: translateX(0);
+        width: 1300px;
+    }
+    to {
+        transform: translateX(1300px);
+        width: 0;
+    }
+}
+
+@keyframes rtl {
+    from {
+        transform: translateX(0);
+        width: 1300px;
+    }
+    to {
+        transform: translateX(-1300px);
+        width: 0;
+    }
+}
+
+
+.index_anime {
+    width: 80%;
+    position: fixed;
+    left: 10%;
+    bottom: 120px;
+    height: 75%;
+    display: flex;
+    justify-content: space-around;
+    transform: rotate(180deg);
+    border: black 2px solid;
+    animation: a4 9s linear 0s infinite alternate;
+    /* padding:0 0 10px 10px; */
+}
+.index_anime div {
+    width: 30px;
+    margin-bottom: 20px;
+    /* height: 100px; */
+}
+.index_anime div:nth-child(1) {
+    height: 160px;
+    background-color: #8A2BE2;
+    animation: a1 3s linear 2s infinite alternate;
+}
+.index_anime div:nth-child(2) {
+    height: 390px;
+    background-color: tomato;
+    animation: a2 2s ease 1.5s infinite alternate;
+}
+.index_anime div:nth-child(3) {
+    height: 190px;
+    background-color: #00F5FF;
+    animation: a3 2s linear 1s infinite alternate;
+}
+.index_anime div:nth-child(4) {
+    height: 340px;
+    background-color: #FF69B4	;
+    animation: a2 2.5s ease-in-out .6s infinite alternate;
+}
+.index_anime div:nth-child(5) {
+    height: 90px;
+    background-color: #FFFACD	;
+    animation: a3 1.5s linear .5s infinite alternate;
+}
+.index_anime div:nth-child(6) {
+    height: 422px;
+    background-color: #FF6A6A;
+    animation: a2 4s ease-in 0s infinite alternate;
+}
+.index_anime div:nth-child(7) {
+    height: 240px;
+    background-color: #20B2AA;
+    animation: a1 3s ease-out .6s infinite alternate;
+}
+.index_anime div:nth-child(8) {
+    height: 90px;
+    background-color: #00FA9A;
+    animation: a3 2.5s linear .4s infinite alternate;
+}
+.index_anime div:nth-child(9) {
+    height: 30px;
+    background-color: #00BFFF;
+    animation: a1 2.5s ease 0s infinite alternate;
+}
+
+@keyframes a1 {
+    from{
+        opacity: 0.7;
+    }
+    to{
+        opacity: 1;
+        height: 580px;
+    }
+}
+@keyframes a2 {
+    from{
+        opacity: 0.8;
+    }
+    to{
+        opacity: 1;
+        height: 680px;
+    }
+}
+@keyframes a3 {
+    from{
+        opacity: 0.9;
+    }
+    to{
+        opacity: 1;
+        height: 550px;
+    }
+}
+
+@keyframes a4 {
+    0%{
+        border: #FFB5C5 2px solid;
+    }
+    20%{
+        border: #FF4500 2px solid;
+    }
+    30%{
+        border: #FF6A6A 2px solid;
+    }
+    40%{
+        border: #BA55D3 2px solid;
+    }
+    50%{
+        border: #00BFFF 2px solid;
+    }
+    60%{
+        border: #32CD32 2px solid;
+    }
+    80%{
+        border: #7FFFD4 2px solid;
+    }
+    90%{
+        border: #40E0D0 2px solid;
+    }
+    100%{
+        border: #FFFF00 2px solid;
+    }
+}

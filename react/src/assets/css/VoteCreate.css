@@ -1,0 +1,152 @@
+/* 发起投票图标 */
+.createButton {
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    right: 5%;
+    bottom: 5%;
+    cursor: pointer;
+    color: #61dafb;
+    background-color: white;
+}
+.createButton img {
+    width: 100%;
+    height: 100%;
+}
+/* 发起投票设置页面 */
+.createCard {
+    position: fixed;
+    width: 80%;
+    height: 90%;
+    z-index: 999;
+    background-color: white;
+    top: 70px;
+    left: 10%;
+    border-radius: 10px;
+    animation: rb2lt 0.55s;
+}
+
+/* 头部 */
+.createCard .createhead {
+    width: 100%;
+    background-color: #1C1C1C;
+    height: 60px;
+    color: white;
+    font-size: 1.4rem;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.createCard .createhead img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+.createCard .createhead i{
+    opacity: 0.7;
+}
+.createCard .createhead i:active .createCard {
+    animation: lt2rb 0.75s;
+}
+.createCard .createhead i:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+/* 内容 */
+.voteContent {
+    padding: 13px 10px;
+    font-size: 1.2rem;
+    margin: 10px;
+}
+.voteContent input{
+    width: 70%;
+
+}
+/* 选项设置CSS */
+.itemSet {
+    margin-top: 20px;
+    margin-left: 28px;
+}
+.itemSet input {
+    width: 60%;
+}
+.itemSet .delItem {
+    opacity: 0.3;
+    margin-left: 10px;
+}
+.itemSet .delItem:hover {
+    opacity: 0.9;
+    cursor: pointer;
+}
+/* 操作栏 */
+.opertion {
+    display: flex;
+    align-items: center;
+}
+.opertion div select {
+    margin: 0 8px 0 9px;
+}
+.setMax {
+    margin:18px 0 0 30px;
+    font-weight: 600;
+}
+.addButton {
+    background-color: #61dafb;
+    color: white;
+    padding: 5px;
+    width: 120px;
+    margin:18px 0 0 30px;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, .1);
+}
+.addButton:hover {
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, .1);
+    opacity: 0.8;
+
+}
+.delete {
+    background-color: #FF6A6A;
+}
+.disable {
+    background-color: gray;
+}
+.green {
+    background-color: #40E0D0;
+}
+
+.model {
+    position: fixed;
+    z-index: 998;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    top: 0;
+}
+
+
+@keyframes rb2lt {
+    0%{
+        transform: translate(10%,10%);
+    }
+    60%{
+        transform: translate(-5%,-5%);
+        opacity: 0.9;
+    }
+    100%{
+        transform: translate(0,0);
+        opacity: 1;
+    }
+}
+@keyframes lt2rb {
+    from{
+        transform: translate(0,0);
+        
+    }
+    to{
+        transform: translate(10%,10%);
+    }
+}
