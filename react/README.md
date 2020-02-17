@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## React投票网站
-
+前言：react小demo，学习完react、canvas和MongoDB文档后进行的小练手项目，较简单浅显，用来巩固学习到的知识。
 技术栈：React(使用create-react-app快速开发、canvas) + Ant design + Node.js(Express框架) + MongoDB
 
 ## 项目启动
