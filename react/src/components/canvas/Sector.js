@@ -5,7 +5,7 @@ export default class sector extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            oneHeight: 500,
+            oneHeight: 700,
             isStart2: false
         }
 

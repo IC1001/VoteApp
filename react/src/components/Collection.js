@@ -8,18 +8,10 @@ export default class Vote extends Component {
     constructor(props){
         super(props);
         this.state = {
-            item:[],
-            route:'/'
+            item:[]
         }
     }  
     componentWillMount() {
-        console.log(this.props.match.path);
-        
-            this.setState({
-                route: this.props.match.path || '/'
-            })
-
-
         this.$http.get('/voteData')
         .then((res) => {
             this.setState({
@@ -40,25 +32,11 @@ export default class Vote extends Component {
     //     })
     // }
     render() {
-        // console.log(this.state.route);
-        
         let demo = []
         for( let i = 0; i < this.state.item.length; i++){
-            if(this.state.route == '/mine'){
-                if(this.state.item[i].mine){
-                    demo.push(<Card demo = {this.state.item[i] }  submitVote = {this.setVote} />)
-                }    
-            }else if(this.state.route == '/collect'){ 
-                if(this.state.item[i].collected){
-                    demo.push(<Card demo = {this.state.item[i] }  submitVote = {this.setVote} />)
-                }    
-            }else if(this.state.route == '/history'){
-                if(this.state.item[i].voted){
-                    demo.push(<Card demo = {this.state.item[i] }  submitVote = {this.setVote} />)
-                }      
-            }else{                
+            if(this.state.item[i].collected){
                 demo.push(<Card demo = {this.state.item[i] }  submitVote = {this.setVote} />)
-            }
+            }    
             
         }
         if(this.state.item.length == 0) {

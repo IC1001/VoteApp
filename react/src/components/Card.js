@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../assets/css/vote.css';
 import Histogram from './canvas/Histogram'
 import Sector from './canvas/Sector'
-import { Icon } from 'antd';
+import { Icon , Alert} from 'antd';
 export default class Card extends Component { 
     constructor(props) {
         super(props);
@@ -13,39 +13,109 @@ export default class Card extends Component {
           isComment:false,
           isStar: false,
           Demo:{item:0},
-          demo : this.props.demo
+          demo : this.props.demo,
+          tips: false
         }
-      }
-
-    render() {
-        //onchange获取投票项
-        let getValue = (e) =>{
-            let arr = this.state.index
-            let str = arr.join('')
-            let index = str.indexOf(e.target.dataset.index)
-            if(this.state.demo.maxChoice == 1) {
-                arr.splice(0,1,e.target.dataset.index)
+    }
+    componentWillMount() {
+        if(this.state.demo.voted){
+            this.setState({
+                isVote : true
+            })
+        }
+        if(this.state.demo.collected){
+            this.setState({
+                isStar : true
+            })
+        }
+        if(this.state.demo.mine){
+            this.setState({
+                isVote : true
+            })
+        }
+    }
+    //onchange获取投票项
+    getValue = (e) =>{
+        let arr = this.state.index
+        let str = arr.join('')
+        let index = str.indexOf(e.target.dataset.index)
+        if(this.state.demo.maxChoice == 1) {
+            arr.splice(0,1,e.target.dataset.index)
+            this.setState({
+                index: arr
+            })
+        }else{
+            if( index != -1 ) {
+                arr.splice(index,1)
                 this.setState({
                     index: arr
                 })
             }else{
-                if( index != -1 ) {
-                    arr.splice(index,1)
-                    this.setState({
-                        index: arr
-                    })
-                }else{
-                    arr.push(e.target.dataset.index)
-                    this.setState({
-                        index: arr
-                    })
-                }
+                arr.push(e.target.dataset.index)
+                this.setState({
+                    index: arr
+                })
             }
-
-
-            
-            
+        }   
+    }
+    //投票
+    submit_vote = (e) => {
+        if (this.state.index.length < 1) {
+            alert('请选择至少一项')
+        }else{
+            this.$http.post('/submit',{id: this.state.demo._id, index: this.state.index})
+            .then((res) => {
+                this.setState({
+                    demo: res.data[0]
+                })
+                this.setState({
+                    isVote: true
+                })  
+                
+            })
+            .catch((err) => {
+                console.log('err');
+                
+            })                
         }
+    }
+    //收藏
+    setStar = () =>{
+        if(this.cookie.load('token')){
+            if(this.state.isStar == false){
+                this.setState({
+                    isStar: true
+                })
+                this.$http.post('collect',{id:this.state.demo._id})
+                .then(res => {
+                    
+                })
+            }else{
+                this.setState({
+                    isStar: false
+                })
+            }
+        }else{
+            this.setState({
+                tips: true
+            })
+            setTimeout(()=>{
+                this.setState({
+                    tips: false
+                })                
+            },1800)
+        }
+
+    }
+    //更换显示方式
+    switchDisplay = () => {
+        this.setState({switch: true})
+    }
+    returnDisplay = () => {
+        this.setState({switch: false})
+    }
+
+    render() {
         //循环遍历投票选项
         let option = []
         if(this.state.demo.maxChoice == 1) {
@@ -53,7 +123,7 @@ export default class Card extends Component {
                 option.push(
                     <div className="input">
                         <input type="radio" name="vote" value={this.state.demo.item[i]}  data-index={i}
-                        onChange={getValue} />  
+                        onChange={this.getValue} />  
                         {this.state.demo.item[i]}
                     </div> 
                 )
@@ -63,13 +133,13 @@ export default class Card extends Component {
                 option.push(
                     <div className="input">
                         <input type="checkbox" name="vote" value={this.state.demo.item[i]}  data-index={i}
-                        onChange={getValue} />  
+                        onChange={this.getValue} />  
                         {this.state.demo.item[i]}
                     </div> 
                 )
             }            
         }
-
+        //柱状图、圆饼图
         let voteRes = null
         if(this.state.isVote) {
             if(this.state.switch) {
@@ -78,34 +148,7 @@ export default class Card extends Component {
                 voteRes= [<Histogram data = {this.state.demo} />]
             }
         }
-        let submit_vote = (e) => {
-            if (this.state.index.length < 1) {
-                alert('请选择至少一项')
-            }else{
-                this.$http.post('/submit',{id: this.state.demo._id, index: this.state.index})
-                .then((res) => {
-                    this.setState({
-                        demo: res.data[0]
-                    })
-                    this.setState({
-                        isVote: true
-                    })  
-                    
-                })
-                .catch((err) => {
-                    console.log('err');
-                    
-                })                
-            }
 
-        }
-
-        let switchDisplay = () => {
-            this.setState({switch: true})
-        }
-        let returnDisplay = () => {
-            this.setState({switch: false})
-        }
         let watchComment = () => {
             if(this.state.isComment == false){
                 this.setState({isComment: true})
@@ -114,26 +157,16 @@ export default class Card extends Component {
             }
             
         }
-        let setStar = () =>{
-            if(this.state.isStar == false){
-                this.setState({
-                    isStar: true
-                })
-            }else{
-                this.setState({
-                    isStar: false
-                })
-            }
-        }
+
         return (
             <div>
                 <div className="card">
                     <div className="card_title">
                         <div>{this.state.demo.title}</div>
-                        {/* <div style={{display:this.isShow(this.state.isVote)}} className="pointer" onClick={setStar}>
+                        <div style={{display:this.isShow(this.state.isVote)}} className="pointer" onClick={this.setStar}>
                             <Icon type="star" style={{display:this.isShow(!this.state.isStar)}}  />
                             <Icon type="star" theme="filled" style={{display:this.isShow(this.state.isStar),color: '#FFD700'}} />
-                        </div> */}
+                        </div>
                     </div>
                     <div style={{display:this.isShow(!this.state.isVote)}}>
                         <form>
@@ -151,11 +184,11 @@ export default class Card extends Component {
                             <div style={{display:this.isShow(this.state.isComment)}} onClick={watchComment}>收起评论<Icon type="up" /></div>
                         </div> */}
                         
-                        <div className="vote_btn" onClick={submit_vote} 
+                        <div className="vote_btn" onClick={this.submit_vote} 
                         style={{display:this.isShow(!this.state.isVote)}}>投票</div>
                         <div style={{display:this.isShow(this.state.isVote)}} className="pointer">
-                            <div style={{display:this.isShow(this.state.switch)}} onClick={returnDisplay}>柱状图显示</div>
-                            <div style={{display:this.isShow(!this.state.switch)}} onClick={switchDisplay}>扇形图显示</div>
+                            <div style={{display:this.isShow(this.state.switch)}} onClick={this.returnDisplay}>柱状图显示</div>
+                            <div style={{display:this.isShow(!this.state.switch)}} onClick={this.switchDisplay}>扇形图显示</div>
                         </div>
                     </div>
 
@@ -165,6 +198,11 @@ export default class Card extends Component {
                 {/* <div className="comment" style={{display:this.isShow(this.state.isComment)}}>
 
                 </div> */}
+            <Alert
+            message="请先登录"
+            type="warning"
+            style={{display:this.isShow(this.state.tips)}}
+            />                
             </div>
         )
     }

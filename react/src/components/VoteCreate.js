@@ -30,6 +30,13 @@ export default class VoteCreate extends Component {
             inputArr: change
         })
     }
+    //创建投票
+    createVote = () => {
+        this.$http.post('/createVote',{votedata: this.state.inputArr})
+        .then((res) => {
+            window.location.href='/'
+        })
+    }
 
     render() {
 
@@ -48,7 +55,7 @@ export default class VoteCreate extends Component {
             }
             
         }
-
+        // 删除选项
         let delItem = () =>{
             let x = this.state.itemNums - 1
             let change = this.state.inputArr
@@ -65,7 +72,7 @@ export default class VoteCreate extends Component {
                 })
             }
         }
-
+        //增加选项
         let addItem = () =>{
             let x = this.state.itemNums + 1
             if(x > 8) {
@@ -81,12 +88,7 @@ export default class VoteCreate extends Component {
             })
             
         }
-        let createVote = () => {
-            this.$http.post('/createVote',{votedata: this.state.inputArr})
-            .then((res) => {
-                window.location.href='/'
-            })
-        }
+
         return (
             <div>
                 <div className="createButton" onClick={this.setVote}>
@@ -123,7 +125,7 @@ export default class VoteCreate extends Component {
                             </select>
                             <label for="1">项</label>
                             </div>
-                            <div className="addButton green" onClick={createVote}>
+                            <div className="addButton green" onClick={this.createVote}>
                                 <Icon type="check-circle" /> 完成创建
                             </div>
                         </div>
