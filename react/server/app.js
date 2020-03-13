@@ -31,40 +31,53 @@ app.get('/history',function(req,res) {
 })
 //获取投票内容
 app.get('/voteData', (req,res) => {
-    model.connect((db) => {
-        db.collection("vote").find().toArray( (err, result)=> {
-            if(err) { 
-                console.log('查询出错')
-            }else{
-                model.connect((db) => {
-                    const tokenData = jwt.verify(req.signedCookies.token, app.get('secret'))  
-                    let id = {
-                        _id: ObjectID(tokenData.id)
-                    }
-                    db.collection("user").find(id).toArray((err1,result1)=>{
-                        let mine = result1[0].my_initiate.join('-')
-                        let collected = result1[0].vote_collect.join('-')
-                        let voted = result1[0].my_join.join('-')
-                        result.forEach((item,i) => {
-                            if(voted.indexOf(String(item._id)) != -1){
-                                item.voted = true
-                            } 
-                            if(mine.indexOf(String(item._id)) != -1){
-                                item.mine = true
-                            }
-                            if(collected.indexOf(String(item._id)) != -1){
-                                item.collected = true
-                            }
+    if(req.signedCookies.token){
+        model.connect((db) => {
+            db.collection("vote").find().toArray( (err, result)=> {
+                if(err) { 
+                    console.log('查询出错')
+                }else{
+                    model.connect((db) => {
+                        const tokenData = jwt.verify(req.signedCookies.token, app.get('secret'))  
+                        let id = {
+                            _id: ObjectID(tokenData.id)
+                        }
+                        db.collection("user").find(id).toArray((err1,result1)=>{
+                            let mine = result1[0].my_initiate.join('-')
+                            let collected = result1[0].vote_collect.join('-')
+                            let voted = result1[0].my_join.join('-')
+                            result.forEach((item,i) => {
+                                if(voted.indexOf(String(item._id)) != -1){
+                                    item.voted = true
+                                } 
+                                if(mine.indexOf(String(item._id)) != -1){
+                                    item.mine = true
+                                }
+                                if(collected.indexOf(String(item._id)) != -1){
+                                    item.collected = true
+                                }
+                            })
+                            // console.log(result);
+                            
+                            res.send(result.reverse())
                         })
-                        // console.log(result);
-                        
-                        res.send(result.reverse())
                     })
-                })
-                
-            }
+                    
+                }
+            })
         })
-    })
+    }else{
+        model.connect((db) => {
+            db.collection("vote").find().toArray( (err, result)=> {
+                if(err) { 
+                    console.log('查询出错')
+                }else{
+                    res.send(result.reverse())
+                }
+            })
+        })        
+    }
+
 })
 
 //退出登录

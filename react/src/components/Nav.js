@@ -37,10 +37,11 @@ export default class nav extends Component {
     closeLogin = () => {
         this.$http.get('/closeLogin')
         .then(res => {
-            this.setState({
-                isLogin: false,
-                name: '我的'
-            })
+            window.location.reload()
+            // this.setState({
+            //     isLogin: false,
+            //     name: '我的'
+            // })
         })
     }
 

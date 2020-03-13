@@ -26,6 +26,7 @@ export default class login extends Component {
                 })
                 this.props.isLogin(this, res.data.username)
                 this.props.quitLogin()
+                window.location.reload()
             }
         })
         
